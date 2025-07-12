@@ -31,6 +31,14 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     formData[key as keyof Movie].trim(),
   );
 
+  const urlPattern =
+    // eslint-disable-next-line max-len
+    /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www\.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w-_]*)?\??(?:[-+=&;%@,.\w_]*)#?(?:[,.!/\\\w]*))?)$/;
+
+  const validateUrl = (value: string) => {
+    return urlPattern.test(value) ? null : 'Invalid URL';
+  };
+
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     if (!isValid) {
@@ -73,6 +81,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         value={formData.imgUrl}
         onChange={value => handleChange('imgUrl', value)}
         required
+        validate={validateUrl}
       />
 
       <TextField
